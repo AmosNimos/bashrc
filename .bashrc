@@ -77,6 +77,7 @@ Green=$'\e[1;32m'
 Red=$'\e[0;91m'
 Blue=$'\e[0;94m'
 White=$'\e[0;97m'
+
 # TEXT OPTIONS VARIABLE
 bold=$'\e[1m'
 uline=$'\e[4m'
@@ -119,6 +120,8 @@ alias tor="cd ~/Documents/web/tor/tor && ./start.desktop"
 alias vioff="set -o emacs"
 alias vion="set -o vi"
 alias closepc="/sbin/shutdown +0"
+alias gitpr="cd ~/Documents/git/private/repos"
+alias gitpu="cd ~/Documents/git/public/repos"
 #alias yt="youtube-dl --restrict-filenames --o '~/Videos/youtube/%(uploader)s-%(title)s'"
 
 export EDITOR='nano'
@@ -244,8 +247,14 @@ lf(){
 	echo "Arguments: link(in quote) [-q,-sub] directory_path"
 }
 
+#Display date
 echo "[$Blue$(date)$Reset]"
+
+#replace right shift with tild 
 xmodmap -e 'keycode 62 = 0x007e'
+#replace right control with grave
+xmodmap -e "keycode 105 = grave"
+
 #chenge the terminal mode from emacs to vi
 #set -o vi
 #-----
