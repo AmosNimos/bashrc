@@ -122,11 +122,16 @@ alias vion="set -o vi"
 alias closepc="/sbin/shutdown +0"
 alias gitpr="cd ~/Documents/git/private/repos"
 alias gitpu="cd ~/Documents/git/public/repos"
-#alias yt="youtube-dl --restrict-filenames --o '~/Videos/youtube/%(uploader)s-%(title)s'"
+alias note="vim ~/Documents/git/private/repos/writting/note/note.md"
 
 export EDITOR='nano'
 export VISUAL='subl'
 
+write(){
+	cd ~/Documents/git/private/repos/writting/general && vim "$1"
+}
+
+#Download youtube video
 ytd(){
 	#video_folder="/Videos/youtube"
 	echo "saving to "$video_folder
@@ -145,6 +150,7 @@ ytd(){
 	fi
 }
 
+#Download audio from youtube video
 yt-mp3(){
 	if [ $2 == "-o" ];then
 		#if argument 2 is empty
@@ -196,13 +202,36 @@ clock(){
 	red=$'\e[0;91m'
 	reset=$'\e[0m'
 	blue=$'\e[0;94m'
-	counter=1
+	counter=0
 	old=""
 	clear
 	echo
+	echo "  [$blue$(date +%A" "%d" "%B" "%G)$reset]"
 	while true; do
 		if [ "$old" != "$(date +%H:%M)" ];then
-			echo "  [$red$(date +%H:%M)$reset] [$blue$(date)$reset]" #[$green$(date +%D)$reset]
+			echo "  [$red$(date +%r)$reset][$green$counter$reset]" #[$green$(date +%D)$reset]
+			old="$(date +%H:%M)"
+			counter=$((counter+1))
+		fi
+		sleep 30
+	done
+}
+
+#Display time minimalistically
+clockmn(){
+	yellow=$'\e[0;33m'
+	green=$'\e[1;32m'
+	red=$'\e[0;91m'
+	reset=$'\e[0m'
+	blue=$'\e[0;94m'
+	counter=1
+	old=""
+	while true; do
+		if [ "$old" != "$(date +%H:%M)" ];then
+			clear
+			echo
+			echo "  [$blue$(date +%m-%d-%y)$reset]"
+			echo "  [$red$(date +%H:%M)$reset]" #[$green$(date +%D)$reset]
 			old="$(date +%H:%M)"
 		fi
 		sleep 30
