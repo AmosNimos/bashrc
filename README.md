@@ -1,3 +1,4 @@
 # bashrc
 A bashrc Template.
-[Theme](https://github.com/AmosNimos/config)
+
+[Bash theme](https://github.com/AmosNimos/config)
