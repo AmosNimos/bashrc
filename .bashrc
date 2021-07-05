@@ -1,5 +1,6 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 
+
 ##BASIC BASHRC CONFIG (can be ignored)
 #-----
 # don't put duplicate lines or lines starting with space in the history.
@@ -123,9 +124,18 @@ alias closepc="/sbin/shutdown +0"
 alias gitpr="cd ~/Documents/git/private/repos"
 alias gitpu="cd ~/Documents/git/public/repos"
 alias note="vim ~/Documents/git/private/repos/writting/note/note.md"
-
+alias cdwrite="cd ~/Documents/git/private/repos/writting/general" 
+alias www=bollux
 export EDITOR='nano'
 export VISUAL='subl'
+#alias memory=""
+
+memory(){
+	#df -BG | sed -n '1p'
+	clear
+	df -BG | sed -n '4p'| awk '{print "Disk name:  [\033[34m" $1 "\033[0m]"}'
+	df -BG | sed -n '4p'| awk '{print "Free space: [" "\033[1;32m" $3 "\033[0m" "/" "\033[1;31m" $4 "\033[0m" "][\033[34m" $5 "\033[0m]"}'
+}
 
 write(){
 	cd ~/Documents/git/private/repos/writting/general && vim "$1"
@@ -252,6 +262,9 @@ lf(){
 	echo "Command: clock"
 	echo "Description:display date and time"
 	echo
+	echo "Command: clockmn"
+	echo "Description:display date and time in a minimalistic way"
+	echo
 	echo "Command: nospace"
 	echo "Description:replace spaces with argument 1"
 	echo "Arguments:symbol"
@@ -275,6 +288,11 @@ lf(){
 	echo "Description: download video from youtube link"
 	echo "Arguments: link(in quote) [-q,-sub] directory_path"
 }
+
+#clear && echo && echo ' \ (•◡•) <[ Hello, World. ]' && echo ""
+#clear && echo && echo '  ( ≖.≖) <[ I am watching you. ]' && echo ""
+#clear && echo && echo '  t(>.<t) <[ Fuuuuuck! ]' && echo ""
+#clear && echo && echo "  ┗ ( ･o･) ┓" && echo
 
 #Display date
 echo "[$Blue$(date)$Reset]"
