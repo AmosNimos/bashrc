@@ -134,7 +134,7 @@ memory(){
 	#df -BG | sed -n '1p'
 	clear
 	echo
-	df -BG | sed -n '4p'| awk '{print "  Disk name:  [\033[34m" $1 "\033[0m]\n" "  Free space: [" "\033[1;32m" $3 "\033[0m" "/" "\033[1;31m" $4 "\033[0m" "] \n  Used space: [\033[34m" $5 "\033[0m]"}'
+	df -BG | sed -n '4p'| awk '{print "  Disk name:  [\033[34m" $1 "\033[0m]\n" "  Free space: [" "\033[1;32m" $4 "\033[0m" "/" "\033[1;31m" $2 "\033[0m" "] \n  Used space:" " [\033[1;31m" $3 "\033[0m]" "(\033[34m" $5 "\033[0m)"  }'
 	echo
 }
 
