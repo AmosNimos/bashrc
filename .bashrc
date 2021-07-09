@@ -304,30 +304,6 @@ xmodmap -e 'keycode 62 = 0x007e'
 #replace right control with grave
 xmodmap -e "keycode 105 = grave"
 
-
-checktime(){
-	yellow=$'\e[0;33m'
-	green=$'\e[1;32m'
-	red=$'\e[0;91m'
-	blue=$'\e[0;94m'
-	reset=$'\e[0m'
-	nowtime = $(echo $(date +%H) | tr -dc '0-9')
-	if [ $(date +%H:%M) > 20 ];then
-		while true; do
-			clear
-			echo
-			echo "  ["$red"It's past 9:00PM!"$reset"]  $blue(－ω－) zzZ$reset"
-			sleep 1
-			clear
-			echo
-			echo "  ["$red"You should sleep!"$reset"]  $blue(－｡－) Zzz$reset"
-			sleep 1
-		done
-	fi
-}
-checktime
-
-
 #chenge the terminal mode from emacs to vi
 #set -o vi
 #-----
