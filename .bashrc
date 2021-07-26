@@ -103,7 +103,8 @@ xterm*|rxvt*)
     ;;
 esac
 
-# use the "top" or the "ps -aux" commands to list the process to terminate and add square braket around the first letter like this [p]rocess.
+# Use the "top" or the "ps -aux" commands to list the process to terminate and add square braket around the first letter like this [p]rocess.
+# With great power comes great responsibility
 function hitman(){
 	red=$'\e[0;91m'
 	reset=$'\e[0m'
@@ -118,11 +119,15 @@ function hitman(){
 	echo
 	echo "$1 [TERMINATION]"
 	echo
-	echo ps -auc | grep $1
-	echo "..."
+	echo $(ps -aux | grep $1)
+	echo
 	echo "[KILL]"
-		kill $(ps aux | grep $1 | awk '{print $2}')  || echo "Mission failed, target alive."
+	echo "..."
+		kill $(ps aux | grep $1 | awk '{print $2}')  || echo "Mission failed, target alive." return [n]
 	echo "$1 [TERMINATED]."
+	
+	echo $(ps -aux)
+	
 	echo "$reset"
 }
 
