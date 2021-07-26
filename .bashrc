@@ -108,6 +108,7 @@ esac
 function hitman(){
 	red=$'\e[0;91m'
 	reset=$'\e[0m'
+	kill_count=1
 	echo "$red"
 	echo "___    ___     ___     _________     ___        __                    ___    __"
 	echo "\ /    \ /     \ /    |/  | |  \|    \  \      / /         /\         \  \   \/"
@@ -121,14 +122,19 @@ function hitman(){
 	echo
 	echo $(ps -aux | grep $1)
 	echo
-	echo "[KILL]"
 	echo "..."
-		kill $(ps aux | grep $1 | awk '{print $2}')  || echo "Mission failed, target alive." return [n]
-	echo "$1 [TERMINATED]."
+	echo "[KILL]"
+		kill $(ps aux | grep $1 | awk '{print $2}')  || kill_count=0
 	
-	echo $(ps -aux)
-	
-	echo "$reset"
+	if [ $kill_count -eq 1 ];then
+		echo "$1 [TERMINATED]."
+		echo $kill_count
+		echo "$reset"
+	else 
+		clear
+		echo "[MISSION FAILED]"
+		echo "TARGET STATUS:[ALIVE]"
+	fi
 }
 
 # some more ls aliases
