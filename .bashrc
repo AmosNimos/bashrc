@@ -257,6 +257,27 @@ go(){
 	exit
 }
 
+# turn each line of a text file into the python array format.
+makelist(){
+
+	# add the "around each word",
+	echo $( cat $1 | sed -e 's/.*/"&",/') > $1
+
+	# remove the last , character
+	echo $( cat $1 | sed '$s/.$//') > $1
+
+	# add [ at the start
+	sed -i '1i[' $1
+
+	# add [ at the end
+	echo $( cat $1 | sed '${s/$/]/}') > $1
+
+	# condense to a single line
+	tr -d '\n' < $1
+
+	cat $1
+}
+
 lf(){
 	echo "Command: go"
 	echo "Description: open the terminal path with file manager."
@@ -289,6 +310,10 @@ lf(){
 	echo "Command: ytd"
 	echo "Description: download video from youtube link"
 	echo "Arguments: link(in quote) [-q,-sub] directory_path"
+	echo
+	echo "Command: makelist"
+	echo "Description: convert the lines of a file to a python format array"
+	echo "Arguments: file_path"
 }
 
 #clear && echo && echo ' \ (•◡•) <[ Hello, World. ]' && echo ""
