@@ -103,23 +103,26 @@ xterm*|rxvt*)
     ;;
 esac
 
-
-# don't worry this just terminate a process in case an app is frosen.
-# use the "top" command to list the process to terminate and add square braket around the first letter like this [p]rocess.
+# use the "top" or the "ps -aux" commands to list the process to terminate and add square braket around the first letter like this [p]rocess.
 function hitman(){
-echo "___    ___     ___     _________     ___        __                    ___    __"
-echo "\ /    \ /     \ /    |/  | |  \|    \  \      / /         /\         \  \   \/"
-echo "| |    | |     | |        | |        |\  \    // |        /. \        ||\ \  ||"
-echo "| |____| |     | |        | |        ||\  \  //| |       // \ \       || \ \ ||"
-echo "| |    | |     | |        | |        || \  \// | |      //___\ \      ||  \ \||"
-echo "| |    | |     | |        | |        ||  \  /  | |     //     \ \     ||   \  |"
-echo "/_\    /_\     /_\        /_\       /_\   \/   /_\    /_\     /__\   /__\   \_|"
-echo "Executing $1 termination order"
-	kill $(ps aux | grep $1 | awk '{print $2}')
-echo "$1 as been terminated"
-#except
-} || {
-echo "Mission failed, target alive."
+	red=$'\e[0;91m'
+	reset=$'\e[0m'
+	echo "$red"
+	echo "___    ___     ___     _________     ___        __                    ___    __"
+	echo "\ /    \ /     \ /    |/  | |  \|    \  \      / /         /\         \  \   \/"
+	echo "| |    | |     | |        | |        |\  \    // |        /. \        ||\ \  ||"
+	echo "| |____| |     | |        | |        ||\  \  //| |       // \ \       || \ \ ||"
+	echo "| |    | |     | |        | |        || \  \// | |      //___\ \      ||  \ \||"
+	echo "| |    | |     | |        | |        ||  \  /  | |     //     \ \     ||   \  |"
+	echo "/_\    /_\     /_\        /_\       /_\   \/   /_\    /_\     /__\   /__\   \_|"
+	echo
+	echo "Executing:" 
+	echo "$1 termination."
+	echo "..."
+		kill $(ps aux | grep $1 | awk '{print $2}')  || echo "Mission failed, target alive."
+	echo "$1 as been terminated."
+	echo "mission complete."
+	echo "$reset"
 }
 
 # some more ls aliases
