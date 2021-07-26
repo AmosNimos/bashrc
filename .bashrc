@@ -274,7 +274,9 @@ makelist(){
 
 	# condense to a single line
 	tr -d '\n' < $1
-
+	
+	# output the resurling list
+	clear
 	cat $1
 }
 
