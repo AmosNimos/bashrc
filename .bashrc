@@ -129,12 +129,12 @@ function hitman(){
 	if [ $kill_count -eq 1 ];then
 		echo "$1 [TERMINATED]."
 		echo $kill_count
-		echo "$reset"
 	else 
 		clear
 		echo "[MISSION FAILED]"
 		echo "TARGET STATUS:[ALIVE]"
 	fi
+	echo "$reset"
 }
 
 # some more ls aliases
