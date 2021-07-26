@@ -278,6 +278,7 @@ makelist(){
 	cat $1
 }
 
+# list function
 lf(){
 	echo "Command: go"
 	echo "Description: open the terminal path with file manager."
