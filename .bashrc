@@ -103,6 +103,12 @@ xterm*|rxvt*)
     ;;
 esac
 
+
+# don't worry this just terminate a process in case an app is frosen.
+function hitman(){
+	kill $(ps aux | grep $1 | awk '{print $2}')
+}
+
 # some more ls aliases
 #alias ll='ls -l'
 alias la='ls -A'
