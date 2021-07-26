@@ -116,12 +116,13 @@ function hitman(){
 	echo "| |    | |     | |        | |        ||  \  /  | |     //     \ \     ||   \  |"
 	echo "/_\    /_\     /_\        /_\       /_\   \/   /_\    /_\     /__\   /__\   \_|"
 	echo
-	echo "Executing:" 
-	echo "$1 termination."
+	echo "$1 [TERMINATION]"
+	echo
+	echo ps -auc | grep $1
 	echo "..."
+	echo "[KILL]"
 		kill $(ps aux | grep $1 | awk '{print $2}')  || echo "Mission failed, target alive."
-	echo "$1 as been terminated."
-	echo "mission complete."
+	echo "$1 [TERMINATED]."
 	echo "$reset"
 }
 
