@@ -105,6 +105,7 @@ esac
 
 
 # don't worry this just terminate a process in case an app is frosen.
+# use the "top" command to list the process to terminate and add square braket around the first letter like this [p]rocess.
 function hitman(){
 	kill $(ps aux | grep $1 | awk '{print $2}')
 }
