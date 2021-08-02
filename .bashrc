@@ -227,7 +227,12 @@ vidl() {
 
 #Record screen with sound
 recs() {
-	ffmpeg -f x11grab -s 2560x1440 -i :0 -f alsa -i default ~/Videos/recs/$1.mkv
+	dir=~/Videos/recs
+	if [[ ! -e $dir ]]; then
+		mkdir $dir
+	else
+		ffmpeg -f x11grab -s 2560x1440 -i :0 -f alsa -i default ~/Videos/recs/$1.mkv || ffmpeg -f x11grab -s 2560x1440 -i :1 -f alsa -i default ~/Videos/recs/$1.mkv
+	fi
 }
 
 #Record microphone only
