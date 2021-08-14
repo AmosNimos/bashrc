@@ -103,6 +103,36 @@ xterm*|rxvt*)
     ;;
 esac
 
+
+
+# some more ls aliases
+#alias ll='ls -l'
+alias la='ls -A'
+#alias l='ls -CF'
+
+# My custom alias
+alias py="python3"
+alias pip="pip3"
+alias awerc="subl ~/.config/awesome/rc.lua"
+alias bashrc="sudo subl ~/.bashrc"
+alias myip="hostname -I | awk '{print $1}'"
+alias p2t="pdftotext -layout"
+alias exe="chmod +x"
+alias pdt="py ~/Documents/global/py/pdt.py -t"
+alias bashrc="subl ~/.bashrc"
+alias tor="cd ~/Documents/web/tor/tor && ./start.desktop"
+alias vioff="set -o emacs"
+alias vion="set -o vi"
+alias closepc="/sbin/shutdown +0"
+alias gitpr="cd ~/Documents/git/private/repos"
+alias gitpu="cd ~/Documents/git/public/repos"
+alias note="vim ~/Documents/git/private/repos/writting/note/note.md"
+alias cdwrite="cd ~/Documents/git/private/repos/writting/general" 
+alias www=bollux
+export EDITOR='nano'
+export VISUAL='subl'
+#alias memory=""
+
 # Use the "top" or the "ps -aux" commands to list the process to terminate and add square braket around the first letter like this [p]rocess.
 # With great power comes great responsibility
 function hitman(){
@@ -137,40 +167,24 @@ function hitman(){
 	echo "$reset"
 }
 
-# some more ls aliases
-#alias ll='ls -l'
-alias la='ls -A'
-#alias l='ls -CF'
-
-# My custom alias
-alias py="python3"
-alias pip="pip3"
-alias awerc="subl ~/.config/awesome/rc.lua"
-alias bashrc="sudo subl ~/.bashrc"
-alias myip="hostname -I | awk '{print $1}'"
-alias p2t="pdftotext -layout"
-alias exe="chmod +x"
-alias pdt="py ~/Documents/global/py/pdt.py -t"
-alias bashrc="subl ~/.bashrc"
-alias tor="cd ~/Documents/web/tor/tor && ./start.desktop"
-alias vioff="set -o emacs"
-alias vion="set -o vi"
-alias closepc="/sbin/shutdown +0"
-alias gitpr="cd ~/Documents/git/private/repos"
-alias gitpu="cd ~/Documents/git/public/repos"
-alias note="vim ~/Documents/git/private/repos/writting/note/note.md"
-alias cdwrite="cd ~/Documents/git/private/repos/writting/general" 
-alias www=bollux
-export EDITOR='nano'
-export VISUAL='subl'
-#alias memory=""
-
 memory(){
 	#df -BG | sed -n '1p'
 	clear
 	echo
 	df -BG | sed -n '4p'| awk '{print "  Disk name:  [\033[34m" $1 "\033[0m]\n" "  Free space: [" "\033[1;32m" $4 "\033[0m" "/" "\033[1;31m" $2 "\033[0m" "] \n  Used space:" " [\033[1;31m" $3 "\033[0m]" "(\033[34m" $5 "\033[0m)"  }'
 	echo
+}
+
+#Record screen with sound
+recs() {
+	dir=~/Videos/recs
+	dim=$(xdpyinfo | grep dimensions | sed -r 's/^[^0-9]*([0-9]+x[0-9]+).*$/\1/')
+	echo "$dim"
+	if [[ ! -e $dir ]]; then
+		mkdir $dir
+	else
+		ffmpeg -f x11grab -s "$dim" -i :0 -f alsa -i default ~/Videos/recs/$1.mkv || ffmpeg -f x11grab -s "$dim" -i :1 -f alsa -i default ~/Videos/recs/$1.mkv
+	fi
 }
 
 write(){
@@ -222,17 +236,6 @@ vidl() {
 	else
 		nohup mpv --sub=no -fs $vid &> /tmp/nohup.out
 		echo "$vid" > ~/Videos/historic.txt
-	fi
-}
-
-#Record screen with sound
-recs() {
-	dir=~/Videos/recs
-	dim=xdpyinfo | grep dimensions | sed -r 's/^[^0-9]*([0-9]+x[0-9]+).*$/\1/'
-	if [[ ! -e $dir ]]; then
-		mkdir $dir
-	else
-		ffmpeg -f x11grab -s $dim -i :0 -f alsa -i default ~/Videos/recs/$1.mkv || ffmpeg -f x11grab -s $dim -i :1 -f alsa -i default ~/Videos/recs/$1.mkv
 	fi
 }
 
