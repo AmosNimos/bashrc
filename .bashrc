@@ -228,10 +228,11 @@ vidl() {
 #Record screen with sound
 recs() {
 	dir=~/Videos/recs
+	dim=xdpyinfo | grep dimensions | sed -r 's/^[^0-9]*([0-9]+x[0-9]+).*$/\1/'
 	if [[ ! -e $dir ]]; then
 		mkdir $dir
 	else
-		ffmpeg -f x11grab -s 2560x1440 -i :0 -f alsa -i default ~/Videos/recs/$1.mkv || ffmpeg -f x11grab -s 2560x1440 -i :1 -f alsa -i default ~/Videos/recs/$1.mkv
+		ffmpeg -f x11grab -s $dim -i :0 -f alsa -i default ~/Videos/recs/$1.mkv || ffmpeg -f x11grab -s $dim -i :1 -f alsa -i default ~/Videos/recs/$1.mkv
 	fi
 }
 
