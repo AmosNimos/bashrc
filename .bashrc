@@ -143,12 +143,12 @@ alias la='ls -A'
 #alias l='ls -CF'
 
 export EDITOR='nano'
-export $VISUAL_EDITOR='gedit'
+export VISUAL_EDITOR='gedit'
 
-# My custom alias
+# My custom alias >>
 
 # Main alias
-alias bashrc="$VISUAL_EDITOR ~/.bashrc"
+alias bashrc="nohup $VISUAL_EDITOR ~/.bashrc &"
 alias myip="hostname -I | awk '{print $1}'"
 alias py="python3"
 alias pip="pip3"
@@ -161,6 +161,8 @@ alias exe="chmod +x"
 alias vioff="set -o emacs"
 alias vion="set -o vi"
 alias www=bollux
+
+# My function alias >>
 
 memory(){
 	#df -BG | sed -n '1p'
@@ -246,6 +248,16 @@ mic() {
 	else
 		rec ~/Music/mic/$1$format
 	fi
+}
+
+tovid(){
+	# ffmpeg -i ep1.png -i ep1.wav ep1.flv
+	# ffmpeg -r 1 -loop 1 -i ep1.jpg -i ep1.wav -acodec copy -r 1 -shortest -vf scale=1280:720 ep1.flv
+	# ffmpeg -loop 1 -i $Image -i $Audio -c:v libx264 -tune stillimage -c:a aac -b:a 192k -pix_fmt yuv420p -shortest out.mp4
+	Image=$1
+	Audio=$2
+	Out=$3
+	ffmpeg -y -i $Image -i $Audio -c:a copy $Out
 }
 
 #Remove spaces in file name
@@ -364,6 +376,10 @@ lf(){
 	echo "Command: makelist"
 	echo "Description: convert the lines of a file to a python format array"
 	echo "Arguments: file_path"
+	echo
+	echo "Command: tovid"
+	echo "Description: Merge a picture and a sound file to output a video"
+	echo "Arguments: Images.format Sound_file.format Output.format"
 }
 
 #clear && echo && echo ' \ (•◡•) <[ Hello, World. ]' && echo ""
