@@ -142,28 +142,25 @@ function hitman(){
 alias la='ls -A'
 #alias l='ls -CF'
 
+export EDITOR='nano'
+export $VISUAL_EDITOR='gedit'
+
 # My custom alias
+
+# Main alias
+alias bashrc="$VISUAL_EDITOR ~/.bashrc"
+alias myip="hostname -I | awk '{print $1}'"
 alias py="python3"
 alias pip="pip3"
-alias awerc="subl ~/.config/awesome/rc.lua"
-alias bashrc="sudo subl ~/.bashrc"
-alias myip="hostname -I | awk '{print $1}'"
+
+# Secondary alias
+alias closepc="/sbin/shutdown +0"
+alias awerc="$VISUAL_EDITOR ~/.config/awesome/rc.lua"
 alias p2t="pdftotext -layout"
 alias exe="chmod +x"
-alias pdt="py ~/Documents/global/py/pdt.py -t"
-alias bashrc="subl ~/.bashrc"
-alias tor="cd ~/Documents/web/tor/tor && ./start.desktop"
 alias vioff="set -o emacs"
 alias vion="set -o vi"
-alias closepc="/sbin/shutdown +0"
-alias gitpr="cd ~/Documents/git/private/repos"
-alias gitpu="cd ~/Documents/git/public/repos"
-alias note="vim ~/Documents/git/private/repos/writting/note/note.md"
-alias cdwrite="cd ~/Documents/git/private/repos/writting/general" 
 alias www=bollux
-export EDITOR='nano'
-export VISUAL='subl'
-#alias memory=""
 
 memory(){
 	#df -BG | sed -n '1p'
@@ -171,10 +168,6 @@ memory(){
 	echo
 	df -BG | sed -n '4p'| awk '{print "  Disk name:  [\033[34m" $1 "\033[0m]\n" "  Free space: [" "\033[1;32m" $4 "\033[0m" "/" "\033[1;31m" $2 "\033[0m" "] \n  Used space:" " [\033[1;31m" $3 "\033[0m]" "(\033[34m" $5 "\033[0m)"  }'
 	echo
-}
-
-write(){
-	cd ~/Documents/git/private/repos/writting/general && vim "$1"
 }
 
 #Download youtube video
@@ -381,10 +374,12 @@ lf(){
 #Display date
 echo "[$Blue$(date)$Reset]"
 
-#replace right shift with tild 
+#Replace right shift with tild 
 xmodmap -e 'keycode 62 = 0x007e'
-#replace right control with grave
+#Replace right control with grave
 xmodmap -e "keycode 105 = grave"
+#Swap caps and escape
+setxkbmap -option "caps:swapescape"
 
 #chenge the terminal mode from emacs to vi
 #set -o vi
