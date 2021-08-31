@@ -191,6 +191,10 @@ ytd(){
 	fi
 }
 
+calc(){
+	echo "$1" | bc
+}
+
 #Download audio from youtube video
 yt-mp3(){
 	if [ $2 == "-o" ];then
@@ -257,7 +261,7 @@ tovid(){
 	Image=$1
 	Audio=$2
 	Out=$3
-	ffmpeg -y -i $Image -i $Audio -c:a copy $Out
+	ffmpeg -y -i $Image -i $Audio -c:a copy $Out.avi
 }
 
 #Remove spaces in file name
