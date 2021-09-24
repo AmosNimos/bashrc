@@ -343,6 +343,10 @@ makelist(){
 	cat $1
 }
 
+show_col() {
+    perl -e 'foreach $a(@ARGV){print "\e[48:2::".join(":",unpack("C*",pack("H*",$a)))."m \e[49m "};print "\n"' "$@"
+}
+
 # list function
 lf(){
 	echo "Command: go"
