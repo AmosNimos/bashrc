@@ -1,6 +1,9 @@
-#Last Updated: Thu 08 Jul 2021 09:20:11 PM EDT
+#Last Updated: Sat 25 Sep 2021 06:04:17 PM EDT
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 
+
+# Folder path
+pico8_path="~/Documents/pico8/pico-8/pico8"
 
 ##BASIC BASHRC CONFIG (can be ignored)
 #-----
@@ -160,7 +163,11 @@ alias p2t="pdftotext -layout"
 alias exe="chmod +x"
 alias vioff="set -o emacs"
 alias vion="set -o vi"
-alias www=bollux
+alias www="bollux"
+alias supertux="supertux2"
+
+# softwair path
+alias pico8=$pico8_path
 
 # My function alias >>
 
@@ -173,7 +180,10 @@ memory(){
 }
 
 run(){
-	"$1" & disown
+	# disown
+	"$1" &
+	#gnome-terminal
+	#exit
 }
 
 #Download youtube video
