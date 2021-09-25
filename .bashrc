@@ -172,6 +172,10 @@ memory(){
 	echo
 }
 
+run(){
+	"$1" & disown
+}
+
 #Download youtube video
 ytd(){
 	#video_folder="/Videos/youtube"
