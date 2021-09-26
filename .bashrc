@@ -191,12 +191,12 @@ cpu(){
 			sleep 15
 		elif [ $cpu_usage -lt 10 ]; then
 			echo  ╔═══════════╗
-			echo "║ CPU: [$blue$cpu_usage%$reset] ║"
+			echo "║ CPU: [$green$cpu_usage%$reset] ║"
 			echo  ╚═══════════╝ 
 			sleep 20
 		else
 			echo  ╔═════════════╗
-			echo "║ CPU: [$blue$cpu_usage%$reset] ║"
+			echo "║ CPU: [$red$cpu_usage%$reset] ║"
 			echo  ╚═════════════╝ 
 			sleep 10
 		fi
