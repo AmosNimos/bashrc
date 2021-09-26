@@ -183,21 +183,24 @@ cpu(){
 	while true; do
 		clear
 		cpu_usage=$(top -n 1 -b | awk '/^%Cpu/{print int($2)}' )
-		
-		if [ $cpu_usage -gt 9 ]; then
-			echo  ╔════════════╗
-			echo "║ CPU: [$blue$cpu_usage%$reset] ║"
-			echo  ╚════════════╝ 
-			sleep 15
-		elif [ $cpu_usage -lt 10 ]; then
-			echo  ╔═══════════╗
-			echo "║ CPU: [$green$cpu_usage%$reset] ║"
-			echo  ╚═══════════╝ 
+		echo
+		if [ $cpu_usage -lt 10 ]; then
+			# Smaller then 10
+			echo  "  ╔═══════════╗"
+			echo  "  ║ CPU: [$green$cpu_usage%$reset] ║"
+			echo  "  ╚═══════════╝" 
 			sleep 20
+		elif [ $cpu_usage -lt 100 ]; then
+			# Larger then 10
+			echo  "  ╔════════════╗"
+			echo  "  ║ CPU: [$blue$cpu_usage%$reset] ║"
+			echo  "  ╚════════════╝"
+			sleep 15
 		else
-			echo  ╔═════════════╗
-			echo "║ CPU: [$red$cpu_usage%$reset] ║"
-			echo  ╚═════════════╝ 
+			# Larger then 99
+			echo  "  ╔═════════════╗"
+			echo  "  ║ CPU: [$red$cpu_usage%$reset] ║"
+			echo  "  ╚═════════════╝"
 			sleep 10
 		fi
 	done
