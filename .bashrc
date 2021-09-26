@@ -151,7 +151,7 @@ export VISUAL_EDITOR='gedit'
 # My custom alias >>
 
 # Main alias
-alias bashrc="nohup $VISUAL_EDITOR ~/.bashrc &"
+alias bashrc="nohup $VISUAL_EDITOR ~/.bashrc &> /tmp/nohup.out"
 alias myip="hostname -I | awk '{print $1}'"
 alias py="python3"
 alias pip="pip3"
@@ -164,12 +164,38 @@ alias exe="chmod +x"
 alias vioff="set -o emacs"
 alias vion="set -o vi"
 alias www="bollux"
+
+# game name
 alias supertux="supertux2"
+alias editcube="sauerbraten"
 
 # softwair path
 alias pico8=$pico8_path
 
 # My function alias >>
+
+cpu(){
+	yellow=$'\e[0;33m'
+	green=$'\e[1;32m'
+	red=$'\e[0;91m'
+	reset=$'\e[0m'
+	blue=$'\e[0;94m'
+	while true; do
+		clear
+		cpu_usage=$(cat /proc/stat | grep 'cpu ' /proc/stat | awk '{usage=($2+$4)*100/($2+$4+$5)} END {print int(usage)}')
+		if [ $cpu_usage -lt 100 ]; then
+			echo  ╔════════════╗
+			echo "║ CPU: [$blue$cpu_usage%$reset] ║"
+			echo  ╚════════════╝ 
+			sleep 15
+		else
+			echo  ╔═════════════╗
+			echo "║ CPU: [$blue$cpu_usage%$reset] ║"
+			echo  ╚═════════════╝ 
+			sleep 15
+		fi
+	done
+}
 
 memory(){
 	#df -BG | sed -n '1p'
@@ -180,10 +206,9 @@ memory(){
 }
 
 run(){
-	# disown
-	"$1" &
-	#gnome-terminal
-	#exit
+	"$1" & disown
+	sleep 0.5
+	clear
 }
 
 #Download youtube video
@@ -211,12 +236,17 @@ calc(){
 
 #Download audio from youtube video
 yt-mp3(){
+	dir=~/Music/yt-mp3
+	if [[ ! -e $dir ]]; then
+		mkdir $dir
+	fi
+	
 	if [ $2 == "-o" ];then
 		#if argument 2 is empty
-		youtube-dl --restrict-filenames --extract-audio --audio-format 'mp3' --output "~/Music/yt-mp3/$3/%(title)s.%(ext)s" "$1"
+		youtube-dl --restrict-filenames --extract-audio --audio-format 'mp3' --output "$dir/$3/%(title)s.%(ext)s" "$1"
 	elif [ $2 == "-q" ]; then
 		#cd "/home/l/Documents/global/nohup"
-		nohup youtube-dl --restrict-filenames --extract-audio --audio-format 'mp3' --output "~/Music/yt-mp3/$3/%(title)s.%(ext)s" "$1" &> /tmp/nohup.out
+		nohup youtube-dl --restrict-filenames --extract-audio --audio-format 'mp3' --output "$dir/$3/%(title)s.%(ext)s" "$1" &> /tmp/nohup.out
 		sleep 0.2
 		exit
 	else
@@ -412,12 +442,12 @@ lf(){
 #Display date
 echo "[$Blue$(date)$Reset]"
 
-#Replace right shift with tild 
-xmodmap -e 'keycode 62 = 0x007e'
-#Replace right control with grave
-xmodmap -e "keycode 105 = grave"
-#Swap caps and escape
-setxkbmap -option "caps:swapescape"
+# Replace right shift with tild 
+#xmodmap -e 'keycode 62 = 0x007e'
+# Replace right control with grave
+#xmodmap -e "keycode 105 = grave"
+# Swap caps and escape
+#setxkbmap -option "caps:swapescape"
 
 #chenge the terminal mode from emacs to vi
 #set -o vi
