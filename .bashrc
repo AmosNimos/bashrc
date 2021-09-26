@@ -182,17 +182,23 @@ cpu(){
 	blue=$'\e[0;94m'
 	while true; do
 		clear
-		cpu_usage=$(cat /proc/stat | grep 'cpu ' /proc/stat | awk '{usage=($2+$4)*100/($2+$4+$5)} END {print int(usage)}')
-		if [ $cpu_usage -lt 100 ]; then
+		cpu_usage=$(top -n 1 -b | awk '/^%Cpu/{print int($2)}' )
+		
+		if [ $cpu_usage -gt 9 ]; then
 			echo  ╔════════════╗
 			echo "║ CPU: [$blue$cpu_usage%$reset] ║"
 			echo  ╚════════════╝ 
 			sleep 15
+		elif [ $cpu_usage -lt 10 ]; then
+			echo  ╔═══════════╗
+			echo "║ CPU: [$blue$cpu_usage%$reset] ║"
+			echo  ╚═══════════╝ 
+			sleep 20
 		else
 			echo  ╔═════════════╗
 			echo "║ CPU: [$blue$cpu_usage%$reset] ║"
 			echo  ╚═════════════╝ 
-			sleep 15
+			sleep 10
 		fi
 	done
 }
