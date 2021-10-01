@@ -4,6 +4,7 @@
 
 # Folder path
 pico8_path="~/Documents/pico8/pico-8/pico8"
+cube2_path="cd ~/Documents/manual_install/sauerbraten/ && ./sauerbraten_unix"
 
 ##BASIC BASHRC CONFIG (can be ignored)
 #-----
@@ -171,6 +172,7 @@ alias editcube="sauerbraten"
 
 # softwair path
 alias pico8=$pico8_path
+alias cube2=$cube2_path
 
 # My function alias >>
 
@@ -202,6 +204,33 @@ cpu(){
 			echo  "  ║ CPU: [$red$cpu_usage%$reset] ║"
 			echo  "  ╚═════════════╝"
 			sleep 10
+		fi
+	done
+}
+
+stopwatch(){
+	BEGIN=$(date +%s)
+
+	echo Starting Stopwatch...
+	echo Press Q to exit.
+
+	while true; do
+		NOW=$(date +%s)
+		let DIFF=$(($NOW - $BEGIN))
+		let MINS=$(($DIFF / 60))
+		let SECS=$(($DIFF % 60))
+		let HOURS=$(($DIFF / 3600))
+		let DAYS=$(($DIFF / 86400))
+
+		# \r  is a "carriage return" - returns cursor to start of line
+		printf "\r%3d Days, %02d:%02d:%02d" $DAYS $HOURS $MINS $SECS
+
+	# In the following line -t for timeout, -N for just 1 character
+		read -t 0.25 -N 1 input
+		if [[ $input = "q" ]] || [[ $input = "Q" ]]; then
+	# The following line is for the prompt to appear on a new line.
+		    echo
+		    break 
 		fi
 	done
 }
@@ -341,7 +370,15 @@ clock(){
 			old="$(date +%H:%M)"
 			counter=$((counter+1))
 		fi
-		sleep 30
+		#sleep 30
+		
+	# In the following line -t for timeout, -N for just 1 character
+		read -t 0.25 -N 1 input
+		if [[ $input = "q" ]] || [[ $input = "Q" ]]; then
+	# Quit the programme.
+		    clear
+		    break 
+		fi
 	done
 }
 
@@ -362,7 +399,13 @@ clockmn(){
 			echo "  [$red$(date +%H:%M)$reset]" #[$green$(date +%D)$reset]
 			old="$(date +%H:%M)"
 		fi
-		sleep 30
+	# In the following line -t for timeout, -N for just 1 character
+		read -t 0.25 -N 1 input
+		if [[ $input = "q" ]] || [[ $input = "Q" ]]; then
+	# Quit the programme.
+		    clear
+		    break 
+		fi
 	done
 }
 
