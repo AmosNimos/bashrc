@@ -152,7 +152,6 @@ export VISUAL_EDITOR='gedit'
 # My custom alias >>
 
 # Main alias
-alias bashrc="nohup $VISUAL_EDITOR ~/.bashrc &> /tmp/nohup.out"
 alias myip="hostname -I | awk '{print $1}'"
 alias py="python3"
 alias pip="pip3"
@@ -243,6 +242,12 @@ memory(){
 	echo
 }
 
+bashrc(){
+	nohup $VISUAL_EDITOR ~/.bashrc & disown
+	sleep 0.5
+	clear
+}
+
 run(){
 	"$1" & disown
 	sleep 0.5
@@ -298,12 +303,8 @@ vidl() {
 	echo "Historic: $(<~/Videos/historic.txt)"
 	line=$(ls -1q | wc -l)
 	vid=$(ls | dmenu -p $line)
-	if [ $1 == "-sub" ];then
-		nohup mpv -fs $vid &> /tmp/nohup.out
-	else
-		nohup mpv --sub=no -fs $vid &> /tmp/nohup.out
-		echo "$vid" > ~/Videos/historic.txt
-	fi
+	nohup mpv $@ "$vid" &> /tmp/nohup.out
+	echo "$vid" > ~/Videos/historic.txt
 }
 
 #Record screen with sound
