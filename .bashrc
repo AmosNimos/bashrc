@@ -175,6 +175,7 @@ alias cube2=$cube2_path
 
 # My function alias >>
 
+# stupid usless programme
 cpu(){
 	yellow=$'\e[0;33m'
 	green=$'\e[1;32m'
@@ -273,6 +274,7 @@ ytd(){
 	fi
 }
 
+# Calculate
 calc(){
 	echo "$1" | bc
 }
@@ -314,6 +316,7 @@ vidl() {
 	clear
 }
 
+# list files/directorys and do X with selection
 lsn() {
 	line=$(ls -1q | wc -l)
 	selection=$(ls | dmenu -p $line)
@@ -350,6 +353,7 @@ mic() {
 	fi
 }
 
+# Merge images and sound to avi video format
 tovid(){
 	# ffmpeg -i ep1.png -i ep1.wav ep1.flv
 	# ffmpeg -r 1 -loop 1 -i ep1.jpg -i ep1.wav -acodec copy -r 1 -shortest -vf scale=1280:720 ep1.flv
@@ -453,6 +457,7 @@ makelist(){
 	cat $1
 }
 
+# preview hex color in the terminal
 show_col() {
     perl -e 'foreach $a(@ARGV){print "\e[48:2::".join(":",unpack("C*",pack("H*",$a)))."m \e[49m "};print "\n"' "$@"
 }
@@ -503,18 +508,19 @@ lf(){
 #clear && echo && echo ' \ (•◡•) <[ Hello, World. ]' && echo ""
 #clear && echo && echo '  ( ≖.≖) <[ I am watching you. ]' && echo ""
 #clear && echo && echo '  t(>.<t) <[ Fuuuuuck! ]' && echo ""
-#clear && echo && echo "  ┗ ( ･o･) ┓" && echo
+#clear && echo && echo "  ┗ ( ･o･) ┓ <[ it's gnu/linux! ]" && echo
+clear && echo -e "🐇 You Take The Red Pill - You Stay In Wonderland, And I Show You How Deep The Rabbit Hole Goes.\n"
 
 #Display date
 echo "[$Blue$(date)$Reset]"
 
 # Replace right shift with tild 
-#xmodmap -e 'keycode 62 = 0x007e'
+	#xmodmap -e 'keycode 62 = 0x007e'
 # Replace right control with grave
-#xmodmap -e "keycode 105 = grave"
+	#xmodmap -e "keycode 105 = grave"
 # Swap caps and escape
-#setxkbmap -option "caps:swapescape"
+	#setxkbmap -option "caps:swapescape"
 
 #chenge the terminal mode from emacs to vi
-#set -o vi
+	#set -o vi
 #-----
