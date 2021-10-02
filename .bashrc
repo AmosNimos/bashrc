@@ -298,7 +298,7 @@ yt-mp3(){
 	fi
 }
 
-#List video files
+#List video files and play selection
 vidl() {
 	echo "Historic: $(<~/Videos/historic.txt)"
 	line=$(ls -1q | wc -l)
@@ -306,14 +306,18 @@ vidl() {
 	if [ $# -eq 0 ]
 	then
 		mpv --no-sub "$vid" & disown
-		sleep 0.5
-		clear
 	else 
 		mpv $@ "$vid"& disown
-		sleep 0.5
-		clear
 	fi
 	echo "$vid" > ~/Videos/historic.txt
+	sleep 0.5
+	clear
+}
+
+lsn() {
+	line=$(ls -1q | wc -l)
+	selection=$(ls | dmenu -p $line)
+	$1 $selection $2 
 }
 
 #Record screen with sound
