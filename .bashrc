@@ -303,7 +303,16 @@ vidl() {
 	echo "Historic: $(<~/Videos/historic.txt)"
 	line=$(ls -1q | wc -l)
 	vid=$(ls | dmenu -p $line)
-	nohup mpv $@ "$vid" &> /tmp/nohup.out
+	if [ $# -eq 0 ]
+	then
+		mpv --no-sub "$vid" & disown
+		sleep 0.5
+		clear
+	else 
+		mpv $@ "$vid"& disown
+		sleep 0.5
+		clear
+	fi
 	echo "$vid" > ~/Videos/historic.txt
 }
 
