@@ -5,6 +5,8 @@
 # Folder path
 pico8_path="~/Documents/pico8/pico-8/pico8"
 cube2_path="cd ~/Documents/manual_install/sauerbraten/ && ./sauerbraten_unix"
+dcdp_path="py ~/Documents/python/dcdp.py"
+
 
 ##BASIC BASHRC CONFIG (can be ignored)
 #-----
@@ -164,6 +166,7 @@ alias exe="chmod +x"
 alias vioff="set -o emacs"
 alias vion="set -o vi"
 alias www="bollux"
+alias ranger='ranger --choosedir=$HOME/.rangerdir; LASTDIR=`cat $HOME/.rangerdir`; cd "$LASTDIR"'
 
 # game name
 alias supertux="supertux2"
@@ -172,6 +175,52 @@ alias editcube="sauerbraten"
 # softwair path
 alias pico8=$pico8_path
 alias cube2=$cube2_path
+alias cubelan="sauerbraten-server -nLOCAL_LAN_SERVER -c5 -mmasterserver"
+alias dcdp=$dcdp_path
+
+
+
+# List cd temporary history and choose an index or a path
+# cd to directory and save directory to temporary history
+cdl(){
+	location=/tmp/cd_history.txt
+	echo "$#"
+	if [ "$#" -gt "0" ]; then # if argument is given cd to argument
+		cd "$1"
+		grep -qxF "$@" $location || echo "$@" >> $location
+	elif [ "$#" -lt "1" ]; then # If no argument is given choose index
+		# Check if file exist
+		if [[ ! -e $location ]]; then
+			echo "/home/$USER" > $location
+		fi 
+		index=1
+		IFS=$'\n'       # make newlines the only separator
+		set -f          # disable globbing
+		echo "History:"
+		for path in $(cat < $location); do
+		  echo "$index: $path"
+		  index=$((index+1));
+		done
+		echo "Path:"
+		
+		read selection
+		
+		# if path is entered as selection:
+		number_range='^[0-9]+$'
+		if ! [[ $selection =~ $number_range ]] ; then
+		   cd $selection
+		   grep -qxF "$selection" $location || echo "$selection" >> $location
+		else # if index is entered as selection:
+			#compensate for the index difference (need to be fixed)
+			selection=$((selection+1));
+			new_path=$(sed "${selection}p" $location) # suppose to get line at selection index
+			echo "Destination:" 
+			echo "$new_path"
+			cd "$new_path"
+			grep -qxF "$new_path" $location || echo "$new_path" >> $location
+		fi
+	fi
+}
 
 # My function alias >>
 
@@ -464,20 +513,24 @@ show_col() {
 
 # So that ranger memorise the current directory
 # Ranger file manager must be installed for this function to work.
-function ranger {
-	local IFS=$'\t\n'
-	local tempfile="$(mktemp -t tmp.XXXXXX)"
-	local ranger_cmd=(
-		command
-		ranger
-		--cmd="map Q chain shell echo %d > "$tempfile"; quitall"
-	)
-	
-	${ranger_cmd[@]} "$@"
-	if [[ -f "$tempfile" ]] && [[ "$(cat -- "$tempfile")" != "$(echo -n `pwd`)" ]]; then
-		cd -- "$(cat "$tempfile")" || return
-	fi
-	command rm -f -- "$tempfile" 2>/dev/null
+#function ranger {
+#	local IFS=$'\t\n'
+#	local tempfile="$(mktemp -t tmp.XXXXXX)"
+#	local ranger_cmd=(
+#		command
+#		ranger
+#		--cmd="map Q chain shell echo %d > "$tempfile"; quitall"
+#	)
+#	
+#	${ranger_cmd[@]} "$@"
+#	if [[ -f "$tempfile" ]] && [[ "$(cat -- "$tempfile")" != "$(echo -n `pwd`)" ]]; then
+#		cd -- "$(cat "$tempfile")" || return
+#	fi
+#	command rm -f -- "$tempfile" 2>/dev/null
+#}
+
+inside(){
+	grep -irl "$1" $(pwd)
 }
 
 # list function
