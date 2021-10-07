@@ -183,39 +183,53 @@ alias dcdp=$dcdp_path
 # List cd temporary history and choose an index or a path
 # cd to directory and save directory to temporary history
 cdl(){
+	# Check if file exist
 	location=/tmp/cd_history.txt
-	echo "$#"
+	if [[ ! -e $location ]]; then
+		echo "/home/$USER" > $location
+	fi 
 	if [ "$#" -gt "0" ]; then # if argument is given cd to argument
 		cd "$1"
 		grep -qxF "$@" $location || echo "$@" >> $location
 	elif [ "$#" -lt "1" ]; then # If no argument is given choose index
-		# Check if file exist
-		if [[ ! -e $location ]]; then
-			echo "/home/$USER" > $location
-		fi 
 		index=1
 		IFS=$'\n'       # make newlines the only separator
 		set -f          # disable globbing
+		
+		#Display history
 		echo "History:"
 		for path in $(cat < $location); do
-		  echo "$index: $path"
+		  echo " $index: $path"
 		  index=$((index+1));
 		done
-		echo "Path:"
 		
-		read selection
+		echo; # Section separation
 		
-		# if path is entered as selection:
+		#Display local directory content
+		echo "Local:";
+		for path in $(ls); do
+			echo " $index: $path"
+			index=$((index+1)); # I need a solution to diferentiate between both section.
+		done
+	
+		
+		echo; # Section separation
+		
+		# take user input as selection
+		read -p "Selection: " selection
+		
+		echo; # Section separation
+		
+		# if a complete path is entered as selection:
 		number_range='^[0-9]+$'
 		if ! [[ $selection =~ $number_range ]] ; then
 		   cd $selection
 		   grep -qxF "$selection" $location || echo "$selection" >> $location
 		else # if index is entered as selection:
-			#compensate for the index difference (need to be fixed)
-			selection=$((selection+1));
-			new_path=$(sed "${selection}p" $location) # suppose to get line at selection index
-			echo "Destination:" 
-			echo "$new_path"
+			# NEED TO BE FIXED (ONLY SELECT FROM HISTORY AND INDEX)
+			selection=$((selection));
+			new_path=$(sed -n "${selection}p" $location) # suppose to get line at selection index
+			echo "Destination: $new_path"
 			cd "$new_path"
 			grep -qxF "$new_path" $location || echo "$new_path" >> $location
 		fi
