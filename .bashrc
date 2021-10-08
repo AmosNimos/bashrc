@@ -185,6 +185,7 @@ alias dcdp=$dcdp_path
 cdl(){
 	# Check if file exist
 	location=/tmp/cd_history.txt
+	local_ls=/tmp/ls_local.txt
 	if [[ ! -e $location ]]; then
 		echo "/home/$USER" > $location
 	fi 
@@ -196,44 +197,47 @@ cdl(){
 		IFS=$'\n'       # make newlines the only separator
 		set -f          # disable globbing
 		
-		#Display history
-		echo "History:"
-		for path in $(cat < $location); do
-		  echo " $index: $path"
-		  index=$((index+1));
-		done
+		# Display history
+		#echo "History:"
+		#for path in $(cat < $location); do
+		#  echo " $index: $path"
+		#  index=$((index+1));
+		#done
 		
-		echo; # Section separation
+		#echo; # Section separation
 		
 		#Display local directory content
 		echo "Local:";
+		> $local_ls # empty file
 		for path in $(ls); do
 			echo " $index: $path"
+			echo $path >> $local_ls
 			index=$((index+1)); # I need a solution to diferentiate between both section.
 		done
-	
 		
 		echo; # Section separation
 		
 		# take user input as selection
 		read -p "Selection: " selection
 		
-		echo; # Section separation
+		#echo; # Section separation
 		
 		# if a complete path is entered as selection:
 		number_range='^[0-9]+$'
 		if ! [[ $selection =~ $number_range ]] ; then
 		   cd $selection
-		   grep -qxF "$selection" $location || echo "$selection" >> $location
+		   grep -qxF "$selection" $location || echo "$(pwd)/$selection" >> $location
 		else # if index is entered as selection:
 			# NEED TO BE FIXED (ONLY SELECT FROM HISTORY AND INDEX)
-			selection=$((selection));
-			new_path=$(sed -n "${selection}p" $location) # suppose to get line at selection index
+			#new_path=$(sed -n "${selection}p" $location) # suppose to get line at selection index
+			new_path=$(sed -n "${selection}p" $local_ls)
 			echo "Destination: $new_path"
 			cd "$new_path"
-			grep -qxF "$new_path" $location || echo "$new_path" >> $location
+			grep -qxF "$new_path" $location || echo "$(pwd)/$new_path" >> $location
 		fi
 	fi
+	clear
+	ls
 }
 
 # My function alias >>
