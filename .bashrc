@@ -178,37 +178,72 @@ alias cube2=$cube2_path
 alias cubelan="sauerbraten-server -nLOCAL_LAN_SERVER -c5 -mmasterserver"
 alias dcdp=$dcdp_path
 
+fav(){
+	location=/var/tmp/favorit_path.txt
+	if [[ ! -e $location ]]; then
+		echo "/home/$USER" > $location
+	fi 
+	echo "$(pwd)" >> $location
+	echo "$(pwd) was added to favorit"
+}
 
+cdf(){
+	# Check if file exist
+	location=/var/tmp/favorit_path.txt
+	if [[ ! -e $location ]]; then
+		touch $location
+	fi 
+	index=1
+	IFS=$'\n'       # make newlines the only separator
+	set -f          # disable globbing
+	
+	# Display history
+	echo "Favorit:"
+	for path in $(cat < $location); do
+	  echo " $index: $path"
+	  index=$((index+1));
+	done
+	
+	echo; # Section separation
+	
+	# take user input as selection
+	read -p "Selection: " selection
+	
+	# if a complete path is entered as selection:
+	number_range='^[0-9]+$'
+	if ! [[ $selection =~ $number_range ]] ; then
+	   cd $selection
+	   grep -qxF "$selection" $location || echo "$(pwd)/$selection" >> $location
+	else # if index is entered as selection:
+		# NEED TO BE FIXED (ONLY SELECT FROM HISTORY AND INDEX)
+		new_path=$(sed -n "${selection}p" $location)
+		echo "Destination: $new_path"
+		cd "$new_path"
+	fi
+	clear
+	echo "[$(pwd)]:"
+	ls
+}
 
 # List cd temporary history and choose an index or a path
 # cd to directory and save directory to temporary history
 cdl(){
 	# Check if file exist
-	location=/tmp/cd_history.txt
 	local_ls=/tmp/ls_local.txt
-	if [[ ! -e $location ]]; then
-		echo "/home/$USER" > $location
-	fi 
 	if [ "$#" -gt "0" ]; then # if argument is given cd to argument
 		cd "$1"
-		grep -qxF "$@" $location || echo "$@" >> $location
+		#grep -qxF "$@" $location || echo "$@" >> $location
 	elif [ "$#" -lt "1" ]; then # If no argument is given choose index
-		index=1
+		index=1 # already counting the ".." option
 		IFS=$'\n'       # make newlines the only separator
 		set -f          # disable globbing
-		
-		# Display history
-		#echo "History:"
-		#for path in $(cat < $location); do
-		#  echo " $index: $path"
-		#  index=$((index+1));
-		#done
-		
-		#echo; # Section separation
 		
 		#Display local directory content
 		echo "Local:";
 		> $local_ls # empty file
+		echo ".." >> $local_ls
+		echo " $index: .."
+		index=$((index+1));
 		for path in $(ls); do
 			echo " $index: $path"
 			echo $path >> $local_ls
@@ -220,23 +255,21 @@ cdl(){
 		# take user input as selection
 		read -p "Selection: " selection
 		
-		#echo; # Section separation
-		
 		# if a complete path is entered as selection:
 		number_range='^[0-9]+$'
 		if ! [[ $selection =~ $number_range ]] ; then
 		   cd $selection
-		   grep -qxF "$selection" $location || echo "$(pwd)/$selection" >> $location
+		   #grep -qxF "$selection" $location || echo "$(pwd)/$selection" >> $location
 		else # if index is entered as selection:
 			# NEED TO BE FIXED (ONLY SELECT FROM HISTORY AND INDEX)
-			#new_path=$(sed -n "${selection}p" $location) # suppose to get line at selection index
 			new_path=$(sed -n "${selection}p" $local_ls)
 			echo "Destination: $new_path"
 			cd "$new_path"
-			grep -qxF "$new_path" $location || echo "$(pwd)/$new_path" >> $location
+			#grep -qxF "$new_path" $location || echo "$(pwd)/$new_path" >> $location
 		fi
 	fi
 	clear
+	echo "[$(pwd)]:"
 	ls
 }
 
