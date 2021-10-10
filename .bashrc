@@ -178,6 +178,7 @@ alias cube2=$cube2_path
 alias cubelan="sauerbraten-server -nLOCAL_LAN_SERVER -c5 -mmasterserver"
 alias dcdp=$dcdp_path
 
+# Add curent directory to favorit path text file.
 fav(){
 	location=/var/tmp/favorit_path.txt
 	if [[ ! -e $location ]]; then
@@ -187,6 +188,7 @@ fav(){
 	echo "$(pwd) was added to favorit"
 }
 
+# cd to selected directory from the favorit path text file.
 cdf(){
 	# Check if file exist
 	location=/var/tmp/favorit_path.txt
@@ -308,6 +310,7 @@ cpu(){
 	done
 }
 
+# A basic stopwatch from stackoverflow
 stopwatch(){
 	BEGIN=$(date +%s)
 
@@ -335,6 +338,7 @@ stopwatch(){
 	done
 }
 
+# Display main disk free space
 memory(){
 	#df -BG | sed -n '1p'
 	clear
@@ -343,12 +347,14 @@ memory(){
 	echo
 }
 
+# open bashrc file with the default visual text editor.
 bashrc(){
 	nohup $VISUAL_EDITOR ~/.bashrc & disown
 	sleep 0.5
 	clear
 }
 
+# run a command without outputing the result to terminal.
 run(){
 	"$1" & disown
 	sleep 0.5
@@ -416,7 +422,7 @@ vidl() {
 	clear
 }
 
-# list files/directorys and do X with selection
+# list files/directorys and do X with selection, where x is a command given as the argument first argument. 
 lsn() {
 	line=$(ls -1q | wc -l)
 	selection=$(ls | dmenu -p $line)
@@ -527,7 +533,7 @@ clockmn(){
 	done
 }
 
-#Open the terminal path with file manager
+# Open the terminal path with file manager
 go(){
 	nohup nautilus . &> /tmp/nohup.out
 	sleep 0.2
@@ -562,26 +568,23 @@ show_col() {
     perl -e 'foreach $a(@ARGV){print "\e[48:2::".join(":",unpack("C*",pack("H*",$a)))."m \e[49m "};print "\n"' "$@"
 }
 
-# So that ranger memorise the current directory
-# Ranger file manager must be installed for this function to work.
-#function ranger {
-#	local IFS=$'\t\n'
-#	local tempfile="$(mktemp -t tmp.XXXXXX)"
-#	local ranger_cmd=(
-#		command
-#		ranger
-#		--cmd="map Q chain shell echo %d > "$tempfile"; quitall"
-#	)
-#	
-#	${ranger_cmd[@]} "$@"
-#	if [[ -f "$tempfile" ]] && [[ "$(cat -- "$tempfile")" != "$(echo -n `pwd`)" ]]; then
-#		cd -- "$(cat "$tempfile")" || return
-#	fi
-#	command rm -f -- "$tempfile" 2>/dev/null
-#}
-
-inside(){
-	grep -irl "$1" $(pwd)
+# a small math game
+mgame(){
+	x=2
+	y=$((1 + $RANDOM % 9))
+	while true; do
+		a=$(echo "$x*$y" | bc)
+		answer=0
+		read -p "$x * $y : " answer	
+		if [ $answer == $a ]; then
+			echo "[True]"
+			x=$((x+1));
+		else 
+			echo "[False]"
+			echo "(The answer was $a.)"
+			break  
+		fi
+	done
 }
 
 # list function
@@ -627,6 +630,7 @@ lf(){
 	echo "Arguments: Images.format Sound_file.format Output.format"
 }
 
+## Openning Message here. 
 #clear && echo && echo ' \ (•◡•) <[ Hello, World. ]' && echo ""
 #clear && echo && echo '  ( ≖.≖) <[ I am watching you. ]' && echo ""
 #clear && echo && echo '  t(>.<t) <[ Fuuuuuck! ]' && echo ""
