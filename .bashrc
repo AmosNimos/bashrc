@@ -109,6 +109,44 @@ xterm*|rxvt*)
     ;;
 esac
 
+# some more ls aliases
+#alias ll='ls -l'
+alias la='ls -A'
+#alias l='ls -CF'
+
+export EDITOR='nano'
+export VISUAL_EDITOR='gedit'
+
+# My custom alias >>
+
+# Main alias
+alias myip="hostname -I | awk '{print $1}'"
+alias py="python3"
+alias pip="pip3"
+alias q="exit"
+
+# Secondary alias
+alias closepc="/sbin/shutdown +0"
+alias awerc="$VISUAL_EDITOR ~/.config/awesome/rc.lua"
+alias p2t="pdftotext -layout"
+alias exe="chmod +x"
+alias vioff="set -o emacs"
+alias vion="set -o vi"
+alias www="bollux"
+alias ranger='ranger --choosedir=$HOME/.rangerdir; LASTDIR=`cat $HOME/.rangerdir`; cd "$LASTDIR"'
+alias blueman=blueman-manager
+alias moc=mocp
+
+# game name
+alias supertux="supertux2"
+alias editcube="sauerbraten"
+
+# softwair path
+alias pico8=$pico8_path
+alias cube2=$cube2_path
+alias cubelan="sauerbraten-server -nLOCAL_LAN_SERVER -c5 -mmasterserver"
+alias dcdp=$dcdp_path
+
 # Use the "top" or the "ps -aux" commands to list the process to terminate and add square braket around the first letter like this [p]rocess.
 # With great power comes great responsibility
 function hitman(){
@@ -142,43 +180,6 @@ function hitman(){
 	fi
 	echo "$reset"
 }
-
-# some more ls aliases
-#alias ll='ls -l'
-alias la='ls -A'
-#alias l='ls -CF'
-
-export EDITOR='nano'
-export VISUAL_EDITOR='gedit'
-
-# My custom alias >>
-
-# Main alias
-alias myip="hostname -I | awk '{print $1}'"
-alias py="python3"
-alias pip="pip3"
-
-# Secondary alias
-alias closepc="/sbin/shutdown +0"
-alias awerc="$VISUAL_EDITOR ~/.config/awesome/rc.lua"
-alias p2t="pdftotext -layout"
-alias exe="chmod +x"
-alias vioff="set -o emacs"
-alias vion="set -o vi"
-alias www="bollux"
-alias ranger='ranger --choosedir=$HOME/.rangerdir; LASTDIR=`cat $HOME/.rangerdir`; cd "$LASTDIR"'
-alias blueman=blueman-manager
-alias moc=mocp
-
-# game name
-alias supertux="supertux2"
-alias editcube="sauerbraten"
-
-# softwair path
-alias pico8=$pico8_path
-alias cube2=$cube2_path
-alias cubelan="sauerbraten-server -nLOCAL_LAN_SERVER -c5 -mmasterserver"
-alias dcdp=$dcdp_path
 
 # Convert pdf to epub (also create a text version)
 pdf2e(){
