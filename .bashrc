@@ -167,6 +167,8 @@ alias vioff="set -o emacs"
 alias vion="set -o vi"
 alias www="bollux"
 alias ranger='ranger --choosedir=$HOME/.rangerdir; LASTDIR=`cat $HOME/.rangerdir`; cd "$LASTDIR"'
+alias blueman=blueman-manager
+alias moc=mocp
 
 # game name
 alias supertux="supertux2"
@@ -177,6 +179,14 @@ alias pico8=$pico8_path
 alias cube2=$cube2_path
 alias cubelan="sauerbraten-server -nLOCAL_LAN_SERVER -c5 -mmasterserver"
 alias dcdp=$dcdp_path
+
+# Convert pdf to epub (also create a text version)
+pdf2e(){
+	pdftotext -layout "$1".pdf "$1".txt
+	ebook-convert "$1".txt "$2".epub
+	#If you don't also whant a txt version, uncomment the next line.
+	#rm "$1".txt
+}
 
 # Add curent directory to favorit path text file.
 fav(){
@@ -395,7 +405,7 @@ yt-mp3(){
 	if [ $2 == "-o" ];then
 		#if argument 2 is empty
 		youtube-dl --restrict-filenames --extract-audio --audio-format 'mp3' --output "$dir/$3/%(title)s.%(ext)s" "$1"
-	elif [ $2 == "-q" ]; then
+	elif [ $2 == "-q" ] | [ $2 -eq 0 ]; then
 		#cd "/home/l/Documents/global/nohup"
 		nohup youtube-dl --restrict-filenames --extract-audio --audio-format 'mp3' --output "$dir/$3/%(title)s.%(ext)s" "$1" &> /tmp/nohup.out
 		sleep 0.2
@@ -571,7 +581,7 @@ show_col() {
 # a small math game
 mgame(){
 	x=2
-	y=$((1 + $RANDOM % 9))
+	y=$((2 + $RANDOM % 9))
 	while true; do
 		a=$(echo "$x*$y" | bc)
 		answer=0
@@ -635,7 +645,13 @@ lf(){
 #clear && echo && echo '  ( ≖.≖) <[ I am watching you. ]' && echo ""
 #clear && echo && echo '  t(>.<t) <[ Fuuuuuck! ]' && echo ""
 #clear && echo && echo "  ┗ ( ･o･) ┓ <[ it's gnu/linux! ]" && echo
-clear && echo -e "🐇 You Take The Red Pill - You Stay In Wonderland, And I Show You How Deep The Rabbit Hole Goes.\n"
+#clear && echo -e "🐇 You Take The Red Pill - You Stay In Wonderland, And I Show You How Deep The Rabbit Hole Goes.\n"
+
+echo "All system ready, Welcome back sir."
+espeak "All system ready, Welcome back sir."
+clear
+
+#moc -l "/home/amos/Music/yt-mp3/acdc/bnb.mp3"
 
 #Display date
 echo "[$Blue$(date)$Reset]"
