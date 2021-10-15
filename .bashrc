@@ -123,7 +123,6 @@ export VISUAL_EDITOR='gedit'
 alias myip="hostname -I | awk '{print $1}'"
 alias py="python3"
 alias pip="pip3"
-alias q="exit"
 
 # Secondary alias
 alias closepc="/sbin/shutdown +0"
@@ -136,16 +135,32 @@ alias www="bollux"
 alias ranger='ranger --choosedir=$HOME/.rangerdir; LASTDIR=`cat $HOME/.rangerdir`; cd "$LASTDIR"'
 alias blueman=blueman-manager
 alias moc=mocp
+alias q=exit
 
 # game name
 alias supertux="supertux2"
 alias editcube="sauerbraten"
+alias tetris="bastet"
 
 # softwair path
 alias pico8=$pico8_path
 alias cube2=$cube2_path
 alias cubelan="sauerbraten-server -nLOCAL_LAN_SERVER -c5 -mmasterserver"
 alias dcdp=$dcdp_path
+
+# Display the text color pallet of the terminal
+function textcolor(){
+	reset=$'\e[0m'
+	for x in {0..0}; do 
+		for i in {30..37}; do 
+		    for a in {40..47}; do 
+		        echo -ne "\e[$x;$i;$a""m\\\e[$x;$i;$a""m\e[0;37;40m "
+		    done
+		    echo
+		done
+	done
+	echo "$reset"
+}
 
 # Use the "top" or the "ps -aux" commands to list the process to terminate and add square braket around the first letter like this [p]rocess.
 # With great power comes great responsibility
@@ -598,6 +613,19 @@ mgame(){
 	done
 }
 
+# Convert file format from x to y
+function conv(){
+	# default convert text to epub
+	# take input file format as first argument
+	if [ "$1" == "-pdf" ]; then
+		pdftotext -layout "$2".pdf "$2".txt
+	elif [ "$2" == "-epub" ]; then
+		ebook-convert "$2".epub "$2".txt
+	else
+		ebook-convert "$2".txt "$2".epub
+	fi
+}
+
 # list function
 lf(){
 	echo "Command: go"
@@ -641,16 +669,13 @@ lf(){
 	echo "Arguments: Images.format Sound_file.format Output.format"
 }
 
+
 ## Openning Message here. 
 #clear && echo && echo ' \ (•◡•) <[ Hello, World. ]' && echo ""
 #clear && echo && echo '  ( ≖.≖) <[ I am watching you. ]' && echo ""
 #clear && echo && echo '  t(>.<t) <[ Fuuuuuck! ]' && echo ""
 #clear && echo && echo "  ┗ ( ･o･) ┓ <[ it's gnu/linux! ]" && echo
 #clear && echo -e "🐇 You Take The Red Pill - You Stay In Wonderland, And I Show You How Deep The Rabbit Hole Goes.\n"
-
-echo "All system ready, Welcome back sir."
-espeak "All system ready, Welcome back sir."
-clear
 
 #moc -l "/home/amos/Music/yt-mp3/acdc/bnb.mp3"
 
