@@ -164,6 +164,7 @@ function textcolor(){
 
 # Use the "top" or the "ps -aux" commands to list the process to terminate and add square braket around the first letter like this [p]rocess.
 # With great power comes great responsibility
+# to kill by name and no by process id use pkill
 function hitman(){
 	red=$'\e[0;91m'
 	reset=$'\e[0m'
