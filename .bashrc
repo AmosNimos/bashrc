@@ -6,6 +6,7 @@
 pico8_path="~/Documents/pico8/pico-8/pico8"
 cube2_path="cd ~/Documents/manual_install/sauerbraten/ && ./sauerbraten_unix"
 dcdp_path="py ~/Documents/python/dcdp.py"
+ani_path="~/.shell/ani-cli.sh"
 
 
 ##BASIC BASHRC CONFIG (can be ignored)
@@ -141,7 +142,7 @@ alias q=exit
 alias supertux="supertux2"
 alias editcube="sauerbraten"
 alias tetris="bastet"
-alias ani="~/Documents/shell/ani-cli/ani-cli"
+alias ani=$ani_path
 
 # softwair path
 alias pico8=$pico8_path
@@ -150,7 +151,7 @@ alias cubelan="sauerbraten-server -nLOCAL_LAN_SERVER -c5 -mmasterserver"
 alias dcdp=$dcdp_path
 
 # Display the text color pallet of the terminal
-function textcolor(){
+function tcol(){
 	reset=$'\e[0m'
 	for x in {0..0}; do 
 		for i in {30..37}; do 
@@ -326,39 +327,6 @@ extract () {
 
 # My function alias >>
 
-# stupid usless programme
-cpu(){
-	yellow=$'\e[0;33m'
-	green=$'\e[1;32m'
-	red=$'\e[0;91m'
-	reset=$'\e[0m'
-	blue=$'\e[0;94m'
-	while true; do
-		clear
-		cpu_usage=$(top -n 1 -b | awk '/^%Cpu/{print int($2)}' )
-		echo
-		if [ $cpu_usage -lt 10 ]; then
-			# Smaller then 10
-			echo  "  ╔═══════════╗"
-			echo  "  ║ CPU: [$green$cpu_usage%$reset] ║"
-			echo  "  ╚═══════════╝" 
-			sleep 20
-		elif [ $cpu_usage -lt 100 ]; then
-			# Larger then 10
-			echo  "  ╔════════════╗"
-			echo  "  ║ CPU: [$blue$cpu_usage%$reset] ║"
-			echo  "  ╚════════════╝"
-			sleep 15
-		else
-			# Larger then 99
-			echo  "  ╔═════════════╗"
-			echo  "  ║ CPU: [$red$cpu_usage%$reset] ║"
-			echo  "  ╚═════════════╝"
-			sleep 10
-		fi
-	done
-}
-
 # A basic stopwatch from stackoverflow
 stopwatch(){
 	BEGIN=$(date +%s)
@@ -408,6 +376,13 @@ run(){
 	"$1" & disown
 	sleep 0.5
 	clear
+}
+
+update-yt-dl(){
+	pip install update youtube-dl
+	sudo apt update
+	sudo apt upgrade
+	exit
 }
 
 #Download youtube video
