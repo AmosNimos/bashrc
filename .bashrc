@@ -95,7 +95,7 @@ Reset=$'\e[0m'
 
 ##Line Prompt Statement One
 if [ "$color_prompt" = yes ]; then
-    PS1="[$ps_red$(date +%H:%M)$ps_reset][$ps_blue\w$ps_reset]:"
+    PS1="[$ps_red\$(date +%H:%M)$ps_reset][$ps_blue\w$ps_reset]:"
 else
     PS1='[\w]:'
 fi
@@ -104,7 +104,7 @@ unset color_prompt force_color_prompt
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
 xterm*|rxvt*)
-    PS1="[$ps_red$(date +%H:%M)$ps_reset][$ps_blue\w$ps_reset]:"
+    PS1="[$ps_red\$(date +%H:%M)$ps_reset][$ps_blue\w$ps_reset]:"
     ;;
 *)
     ;;
@@ -138,6 +138,7 @@ alias blueman=blueman-manager
 alias moc=mocp
 alias q=exit
 alias copy='xsel -ib'
+alias inst="sudo apt update & sudo apt autoremove & sudo apt upgrade & sudo apt install"
 
 # game name
 alias supertux="supertux2"
