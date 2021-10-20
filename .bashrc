@@ -139,6 +139,7 @@ alias moc=mocp
 alias q=exit
 alias copy='xsel -ib'
 alias inst="sudo apt update && sudo apt autoremove && sudo apt upgrade && sudo apt install"
+alias note="nano ~/.note.txt"
 
 # game name
 alias supertux="supertux2"
@@ -370,7 +371,11 @@ memory(){
 
 # open bashrc file with the default visual text editor.
 bashrc(){
-	nohup $VISUAL_EDITOR ~/.bashrc & disown
+	dir=~/.nohup
+	if [[ ! -e $dir ]]; then
+		mkdir $dir
+	fi
+	nohup $VISUAL_EDITOR ~/.bashrc >  $dir/log.txt & disown
 	sleep 0.5
 	clear
 }
