@@ -137,18 +137,21 @@ alias ranger='ranger --choosedir=$HOME/.rangerdir; LASTDIR=`cat $HOME/.rangerdir
 alias blueman=blueman-manager
 alias moc=mocp
 alias q=exit
+alias copy='xsel -ib'
 
 # game name
 alias supertux="supertux2"
 alias editcube="sauerbraten"
 alias tetris="bastet"
-alias ani=$ani_path
 
 # softwair path
 alias pico8=$pico8_path
 alias cube2=$cube2_path
 alias cubelan="sauerbraten-server -nLOCAL_LAN_SERVER -c5 -mmasterserver"
 alias dcdp=$dcdp_path
+
+# shellscript path
+alias ani=$ani_path
 
 # Display the text color pallet of the terminal
 function tcol(){
