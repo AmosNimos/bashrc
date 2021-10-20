@@ -138,7 +138,7 @@ alias blueman=blueman-manager
 alias moc=mocp
 alias q=exit
 alias copy='xsel -ib'
-alias inst="sudo apt update & sudo apt autoremove & sudo apt upgrade & sudo apt install"
+alias inst="sudo apt update && sudo apt autoremove && sudo apt upgrade && sudo apt install"
 
 # game name
 alias supertux="supertux2"
@@ -419,19 +419,7 @@ yt-mp3(){
 	if [[ ! -e $dir ]]; then
 		mkdir $dir
 	fi
-	
-	if [ $2 == "-o" ];then
-		#if argument 2 is empty
-		youtube-dl --restrict-filenames --extract-audio --audio-format 'mp3' --output "$dir/$3/%(title)s.%(ext)s" "$1"
-	elif [ $2 == "-q" ] | [ $2 -eq 0 ]; then
-		#cd "/home/l/Documents/global/nohup"
-		nohup youtube-dl --restrict-filenames --extract-audio --audio-format 'mp3' --output "$dir/$3/%(title)s.%(ext)s" "$1" &> /tmp/nohup.out
-		sleep 0.2
-		exit
-	else
-		echo "Missing argument"
-		echo $2
-	fi
+	youtube-dl --restrict-filenames --extract-audio --audio-format 'mp3' --output "$dir/$3/%(title)s.%(ext)s" "$1"
 }
 
 #List video files and play selection
