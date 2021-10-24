@@ -7,6 +7,7 @@ pico8_path="~/Documents/pico8/pico-8/pico8"
 cube2_path="cd ~/Documents/manual_install/sauerbraten/ && ./sauerbraten_unix"
 dcdp_path="py ~/Documents/python/dcdp.py"
 ani_path="~/.shell/ani-cli.sh"
+tpb_path="~/Documents/programme/tpb-dl-main/tpb_dl.py"
 
 
 ##BASIC BASHRC CONFIG (can be ignored)
@@ -127,7 +128,7 @@ alias pip="pip3"
 
 # Secondary alias
 alias closepc="/sbin/shutdown +0"
-alias awerc="$VISUAL_EDITOR ~/.config/awesome/rc.lua"
+alias awerc="nohup $VISUAL_EDITOR ~/.config/awesome/rc.lua > /tmp/nohup.out && clear"
 alias p2t="pdftotext -layout"
 alias exe="chmod +x"
 alias vioff="set -o emacs"
@@ -140,6 +141,7 @@ alias q=exit
 alias copy='xsel -ib'
 alias inst="sudo apt update && sudo apt autoremove && sudo apt upgrade && sudo apt install"
 alias note="nano ~/.note.txt"
+alias wifi="nmtui"
 
 # game name
 alias supertux="supertux2"
@@ -154,6 +156,8 @@ alias dcdp=$dcdp_path
 
 # shellscript path
 alias ani=$ani_path
+alias tpb="py $tpb_path"
+
 
 # Display the text color pallet of the terminal
 function tcol(){
@@ -166,41 +170,6 @@ function tcol(){
 		    echo
 		done
 	done
-	echo "$reset"
-}
-
-# Use the "top" or the "ps -aux" commands to list the process to terminate and add square braket around the first letter like this [p]rocess.
-# With great power comes great responsibility
-# to kill by name and no by process id use pkill
-function hitman(){
-	red=$'\e[0;91m'
-	reset=$'\e[0m'
-	kill_count=1
-	echo "$red"
-	echo "___    ___     ___     _________     ___        __                    ___    __"
-	echo "\ /    \ /     \ /    |/  | |  \|    \  \      / /         /\         \  \   \/"
-	echo "| |    | |     | |        | |        |\  \    // |        /. \        ||\ \  ||"
-	echo "| |____| |     | |        | |        ||\  \  //| |       // \ \       || \ \ ||"
-	echo "| |    | |     | |        | |        || \  \// | |      //___\ \      ||  \ \||"
-	echo "| |    | |     | |        | |        ||  \  /  | |     //     \ \     ||   \  |"
-	echo "/_\    /_\     /_\        /_\       /_\   \/   /_\    /_\     /__\   /__\   \_|"
-	echo
-	echo "$1 [TERMINATION]"
-	echo
-	echo $(ps -aux | grep $1)
-	echo
-	echo "..."
-	echo "[KILL]"
-		kill $(ps aux | grep $1 | awk '{print $2}')  || kill_count=0
-	
-	if [ $kill_count -eq 1 ];then
-		echo "$1 [TERMINATED]."
-		echo $kill_count
-	else 
-		clear
-		echo "[MISSION FAILED]"
-		echo "TARGET STATUS:[ALIVE]"
-	fi
 	echo "$reset"
 }
 
@@ -371,43 +340,23 @@ memory(){
 
 # open bashrc file with the default visual text editor.
 bashrc(){
-	dir=~/.nohup
-	if [[ ! -e $dir ]]; then
-		mkdir $dir
-	fi
-	nohup $VISUAL_EDITOR ~/.bashrc >  $dir/log.txt & disown
-	sleep 0.5
-	clear
+	nohup $VISUAL_EDITOR ~/.bashrc &> /tmp/nohup.out &disown && clear
 }
 
 # run a command without outputing the result to terminal.
 run(){
-	"$1" & disown
-	sleep 0.5
-	clear
-}
-
-update-yt-dl(){
-	pip install update youtube-dl
-	sudo apt update
-	sudo apt upgrade
-	exit
+	nohup $1 &> /tmp/nohup.out &disown && clear
 }
 
 #Download youtube video
 ytd(){
-	#video_folder="/Videos/youtube"
+	video_folder="/Videos/youtube"
 	echo "saving to "$video_folder
 	if [ -z "$2" ];then
 		#if argument 2 is empty
-		youtube-dl --restrict-filenames --output '~/Videos/youtube/%(uploader)s-%(title)s' "$1"
-	elif [ $2 == "-q" ]; then
-		#cd "/home/l/Documents/global/nohup"
-		nohup youtube-dl --restrict-filenames --output '~/Videos/youtube/%(uploader)s-%(title)s' "$1" &> /tmp/nohup.out
-		sleep 0.2
-		exit
+		nohup youtube-dl --restrict-filenames --output '~/Videos/youtube/%(uploader)s-%(title)s' "$1" &> /tmp/nohup.out &disown && clear
 	elif [ $2 == "-sub" ]; then
-		youtube-dl --restrict-filenames --write-sub --sub-lang en --output '~/Videos/youtube/%(uploader)s-%(title)s' "$1"
+		nohup youtube-dl --restrict-filenames --write-sub --sub-lang en --output '~/Videos/youtube/%(uploader)s-%(title)s' "$1"  &> /tmp/nohup.out &disown && clear
 	else
 		youtube-dl --restrict-filenames --output '~/Videos/youtube/%(uploader)s-%(title)s' "$1"
 	fi
@@ -436,7 +385,7 @@ vidl() {
 	then
 		mpv --no-sub "$vid" & disown
 	else 
-		mpv $@ "$vid"& disown
+		mpv $@ "$vid" & disown
 	fi
 	echo "$vid" > ~/Videos/historic.txt
 	sleep 0.5
@@ -556,7 +505,7 @@ clockmn(){
 
 # Open the terminal path with file manager
 go(){
-	nohup nautilus . &> /tmp/nohup.out
+	nohup nautilus . > /tmp/nohup.out
 	sleep 0.2
 	exit
 }
