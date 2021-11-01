@@ -8,7 +8,7 @@ cube2_path="cd ~/Documents/manual_install/sauerbraten/ && ./sauerbraten_unix"
 dcdp_path="py ~/Documents/python/dcdp.py"
 ani_path="~/.shell/ani-cli.sh"
 tpb_path="~/Documents/programme/tpb-dl-main/tpb_dl.py"
-
+novel_path="~/.python/manga2txt.py"
 
 ##BASIC BASHRC CONFIG (can be ignored)
 #-----
@@ -140,23 +140,48 @@ alias moc=mocp
 alias q=exit
 alias copy='xsel -ib'
 alias inst="sudo apt update && sudo apt autoremove && sudo apt upgrade && sudo apt install"
-alias note="nano ~/.note.txt"
+alias note="nano ~/.note.md"
 alias wifi="nmtui"
+alias cd..="cd .."
+alias bat="acpi"
 
 # game name
 alias supertux="supertux2"
 alias editcube="sauerbraten"
 alias tetris="bastet"
 
+# sofrwair nickname
+alias plan="calcurse"
+
 # softwair path
 alias pico8=$pico8_path
 alias cube2=$cube2_path
 alias cubelan="sauerbraten-server -nLOCAL_LAN_SERVER -c5 -mmasterserver"
 alias dcdp=$dcdp_path
+alias ???="less ~/.config/pdata/.p.txt"
 
 # shellscript path
 alias ani=$ani_path
+
+#python 
+alias novel="py $novel_path"
 alias tpb="py $tpb_path"
+
+#Delete FILE recursively
+rmr(){
+	echo "Deleting all file named $1 in $(pwd)"
+	find . -type f -name "$1" -delete
+}
+
+# List wifi signal found
+wifo(){
+	nmcli d wifi list
+	#echo -ne '\e[0;30;43m'
+	#echo "Wifi:"
+	#echo -ne '\e[0;32m'
+	#nmcli d wifi list | awk '{print $3}' | tail -n +2
+	#echo -ne '\e[0m'
+}
 
 
 # Display the text color pallet of the terminal
@@ -369,11 +394,11 @@ calc(){
 
 #Download audio from youtube video
 yt-mp3(){
-	dir=~/Music/yt-mp3
+	dir=~/Music/yt-mp3/$2
 	if [[ ! -e $dir ]]; then
 		mkdir $dir
 	fi
-	youtube-dl --restrict-filenames --extract-audio --audio-format 'mp3' --output "$dir/$3/%(title)s.%(ext)s" "$1"
+	youtube-dl --restrict-filenames --extract-audio --audio-format 'mp3' --output "$dir/%(title)s.%(ext)s" "$1"
 }
 
 #List video files and play selection
@@ -505,9 +530,7 @@ clockmn(){
 
 # Open the terminal path with file manager
 go(){
-	nohup nautilus . > /tmp/nohup.out
-	sleep 0.2
-	exit
+	nohup nautilus . &> /tmp/nohup.out &disown && clear
 }
 
 # turn each line of a text file into the python array format.
@@ -821,7 +844,7 @@ lf(){
 #clear && echo && echo '  ( ≖.≖) <[ I am watching you. ]' && echo ""
 #clear && echo && echo '  t(>.<t) <[ Fuuuuuck! ]' && echo ""
 #clear && echo && echo "  ┗ ( ･o･) ┓ <[ it's gnu/linux! ]" && echo
-#clear && echo -e "🐇 You Take The Red Pill - You Stay In Wonderland, And I Show You How Deep The Rabbit Hole Goes.\n"
+#echo -e "🐇 You Take The Red Pill - You Stay In Wonderland, And I Show You How Deep The Rabbit Hole Goes.\n"
 
 #moc -l "/home/amos/Music/yt-mp3/acdc/bnb.mp3"
 
@@ -829,7 +852,7 @@ lf(){
 echo "[$Blue$(date)$Reset]"
 
 # Replace right shift with tild 
-	#xmodmap -e 'keycode 62 = 0x007e'
+	xmodmap -e 'keycode 62 = 0x007e'
 # Replace right control with grave
 	#xmodmap -e "keycode 105 = grave"
 # Swap caps and escape
